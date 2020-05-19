@@ -7,6 +7,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.casperdaris.beroepsproductgroepc.Fragments.RegioInformatieTab;
+import com.casperdaris.beroepsproductgroepc.Fragments.RegioRegioTab;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
@@ -16,44 +18,28 @@ public class RegioActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private TabItem informatieTabItem, regioTabItem;
-    public PageAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regio);
 
+        naamVanRegio = findViewById(R.id.naamVanRegio);
+        beschrijvingVanRegio = findViewById(R.id.beschrijvingVanRegio);
+
         tabLayout = findViewById(R.id.regioTabLayout);
-        informatieTabItem = findViewById(R.id.regioInformatieTabItem);
-        regioTabItem = findViewById(R.id.regioRegioTabItem);
         viewPager =  findViewById(R.id.regioViewPager);
 
-        pagerAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(pagerAdapter);
+        // Een adapter aanmaken welke de navigatie tussen fragments regelt
+        RegioAdapter adapter = new RegioAdapter(getSupportFragmentManager());
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0) {
-                    pagerAdapter.notifyDataSetChanged();
-                } else if (tab.getPosition() == 1) {
-                    pagerAdapter.notifyDataSetChanged();
-                }
-            }
+        // Hier maak je nieuwe fragments aan die in de TabLayout komen te staan
+        adapter.fragmentToevoegen(new RegioInformatieTab(), "Informatie");
+        adapter.fragmentToevoegen(new RegioRegioTab(), "Regio's");
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        // Hier link je de TabLayout (de tabs waar je op kunt klikken) en de ViewPager (het swipen tussen fragments)
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 }

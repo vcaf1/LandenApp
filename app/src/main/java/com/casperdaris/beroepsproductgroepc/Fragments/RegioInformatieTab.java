@@ -13,9 +13,9 @@ import com.casperdaris.beroepsproductgroepc.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class informatieTab extends Fragment {
+public class RegioInformatieTab extends Fragment {
 
-    public informatieTab() {
+    public RegioInformatieTab() {
         // Required empty public constructor
     }
 
